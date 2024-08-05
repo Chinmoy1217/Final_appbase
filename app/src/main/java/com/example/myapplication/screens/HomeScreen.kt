@@ -16,6 +16,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -185,11 +186,7 @@ fun TrackItem(track: Data, navController: NavController, viewModel: TracksViewMo
             .fillMaxWidth()
             .padding(8.dp)
             .shadow(4.dp, shape = RoundedCornerShape(8.dp))
-            .background(Color.DarkGray, shape = RoundedCornerShape(8.dp))
-            .clickable {
-                viewModel.getTrackDetails(track.id)
-                navController.navigate("trackDetails/${track.id}")
-            },
+            .background(Color.DarkGray, shape = RoundedCornerShape(8.dp)),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Row(
@@ -206,26 +203,44 @@ fun TrackItem(track: Data, navController: NavController, viewModel: TracksViewMo
                 contentDescription = null,
                 modifier = Modifier
                     .size(80.dp)
-                    .border(BorderStroke(2.dp, Color.Gray)),
+                    .border(BorderStroke(2.dp, Color.Gray), shape = RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                Text(text = track.name, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                Text(text = track.artists.items.joinToString(", ") { it.profile.name }, fontSize = 16.sp, color = Color.Gray)
-                Text(text = "ID: ${track.id}", fontSize = 14.sp, color = Color.Gray)
+                Text(
+                    text = track.name,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                Text(
+                    text = track.artists.items.joinToString(", ") { it.profile.name },
+                    fontSize = 16.sp,
+                    color = Color.DarkGray
+                )
+                Text(
+                    text = "ID: ${track.id}",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
             }
-            Button(onClick = {
-                viewModel.getTrackDetails(track.id)
-                navController.navigate("trackDetails/${track.id}")
-            }) {
+            Button(
+                onClick = {
+                    viewModel.getTrackDetails(track.id)
+                    navController.navigate("trackDetails/${track.id}")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.DarkGray,
+                    contentColor = Color.White
+                )
+            ) {
                 Text("Details")
             }
         }
     }
 }
-
 @Composable
 fun TabButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
     Tab(
